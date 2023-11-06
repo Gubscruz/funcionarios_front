@@ -27,7 +27,9 @@ st.markdown("""
 
 dados_geocoded = []
 dados_json = get_problemas()
-dados_geocoded = [item for item in dados_json['problemas'] if item['latitude'] and item['longitude']]
+print(dados_json)
+dados_geocoded = [item for item in dados_json[1]['problemas'] if item['latitude'] and item['longitude']]
+print(dados_geocoded)
 # convert latitude and longitude to float
 for item in dados_geocoded:
     item['latitude'] = float(item['latitude'])
