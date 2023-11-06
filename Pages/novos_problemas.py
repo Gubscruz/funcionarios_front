@@ -19,4 +19,6 @@ if 'Mínima' in options:
     salvou, problemas = uts.mostra_problemas_filtrado()
     st.write(f'{problemas}')
 
-    
+else:
+    problemas = uts.get_problemas()
+    st.write(f'{problemas}')
