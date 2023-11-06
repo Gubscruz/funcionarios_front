@@ -6,31 +6,37 @@ from geopy.extra.rate_limiter import RateLimiter
 import pandas as pd
 
 
+st.title("Mapa de Problemas")
+
 def geocode_address(bairro, rua):
     geolocator = Nominatim(user_agent="geoapiExercises")
-    geocode = RateLimiter(geolocator.geocode, min_delay_seconds=0)
+    geocode = geolocator.geocode
     
     try:
-        location = geocode(f"{rua}, {bairro}")
+        location = geocode(f"{rua}, {bairro}, São Paulo")
         if location:
             return location.latitude, location.longitude
-        else:
-            return None, None
+        # else:
+        #     return None, None
     except Exception as e:
         print(f"Erro ao geocodificar {rua}, {bairro}: {e}")
-        return None, None
+    return None, None
 
-
+dados_geocoded = []
 dados_json = get_problemas()
 for item in dados_json['problemas']:
     lat, lon = geocode_address(item['bairro'], item['rua'])
-    item['latitude'] = lat
-    item['longitude'] = lon
+    if lat and lon:
+        item['latitude'] = lat
+        item['longitude'] = lon
+        dados_geocoded.append(item)
 
 dados_geocoded = [item for item in dados_json['problemas'] if item['latitude'] and item['longitude']]
+
+
 dados_df = pd.DataFrame(dados_geocoded)
 
-size_map = {"Alta": 15, "Média": 10, "Baixa": 5}
+size_map = {"Alta": 15, "Mediana": 10, "Baixa": 5}
 dados_df['urgencia_size'] = dados_df['urgencia'].map(size_map)
 
 def create_bubble_map(dataframe):
@@ -49,6 +55,5 @@ def create_bubble_map(dataframe):
 
 
 st.sidebar.title('Menu')
-st.title("Mapa de Problemas")
 fig = create_bubble_map(dados_df)
 st.plotly_chart(fig)
