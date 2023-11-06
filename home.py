@@ -23,16 +23,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+
 tab1, tab2, tab3 = st.tabs(["Novos Problemas", "Mapa de Problemas", "Estatísticas"])
 
 with tab1:
     st.write("Nesta opção você pode visualizar os problemas cadastrados no sistema. Além disso, você pode filtrar os problemas por ID e urgência.")
     st.write("Acesse o menu lateral e clique em 'Novos Problemas'.")
+    st.link_button("Ir para os novos problemas", "http://localhost:8501/novos_problemas")
 
 with tab2:
     st.write("Nesta opção você pode visualizar os problemas cadastrados no sistema de forma geográfica.")
     st.write("Acesse o menu lateral e clique em 'Mapa de Problemas'.")
-
+    st.link_button("Ir para o mapa de problemas", "http://localhost:8501/mapa")
+    
 with tab3:
     st.write("Nesta opção você pode visualizar as estatísticas dos problemas cadastrados no sistema. Essa página contém gráficos e tabelas com informações sobre os problemas.")
     st.write("Acesse o menu lateral e clique em 'Estatísticas'.")
+    st.link_button("Ir para as estatísticas", "http://localhost:8501/estatisticas")
