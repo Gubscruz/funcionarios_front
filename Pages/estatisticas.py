@@ -5,14 +5,31 @@ import unidecode
 
 st.title("Estatísticas")
 st.write("Aqui você pode visualizar as estatísticas dos problemas cadastrados no sistema. Essa página contém gráficos com informações sobre os problemas.")
+st.markdown("""
+<style>
+    [data-testid=stSidebar] {
+        background-color: rgba(53, 219, 217,0.6);
+    }
+    [data-testid="stSidebarNav"]::before {
+        font-weight : 600;
+        content: "Menu";
+        margin-left: 20px;
+        font: Helvica Bold;
+        margin-top: 20px;
+        font-size: 30px;
+        position: relative;
+        top: 100px;
+        }
+</style>
+""", unsafe_allow_html=True)
 
 
 
-
-problemas = uts.get_problemas()
+salvou, problemas = uts.get_problemas()
 lista_tipos = []
 lista_bairros = []
 lista_urgencias = []
+
 
 for i in range(len(problemas['problemas'])):
     lista_tipos.append(problemas['problemas'][i]['problema_tipo'])
@@ -24,13 +41,11 @@ for i in range(len(lista_bairros)):
 
 
 lista_qnt_bairros = []
-for i in range(len(lista_tipos)):
-    contador = 0
-    string = lista_tipos[i]
-    for bairro in lista_tipos:
-        if bairro == string:
-            contador += 1
-    lista_qnt_bairros.append(contador)
+for bairro in lista_bairros:
+    ocorrencias = lista_bairros.count(bairro)
+    lista_qnt_bairros.append(ocorrencias)
+
+
 
 
 fig_tipos = px.pie(lista_tipos, names=lista_tipos, title='Tipos de problemas')
