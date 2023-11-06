@@ -7,6 +7,23 @@ import pandas as pd
 
 
 st.title("Mapa de Problemas")
+st.markdown("""
+<style>
+    [data-testid=stSidebar] {
+        background-color: rgba(53, 219, 217,0.6);
+    }
+    [data-testid="stSidebarNav"]::before {
+        font-weight : 600;
+        content: "Menu";
+        margin-left: 20px;
+        font: Helvica Bold;
+        margin-top: 20px;
+        font-size: 30px;
+        position: relative;
+        top: 100px;
+        }
+</style>
+""", unsafe_allow_html=True)
 
 def geocode_address(bairro, rua):
     geolocator = Nominatim(user_agent="geoapiExercises")

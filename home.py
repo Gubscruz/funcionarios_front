@@ -4,6 +4,23 @@ st.title("Bem vindo!")
 st.subheader("Aqui você consegue ver os problemas urbanos relatados pelos cidadãos")
 
 st.write('Abaixo uma explicação breve de cada uma das opções:')
+st.markdown("""
+<style>
+    [data-testid=stSidebar] {
+        background-color: rgba(53, 219, 217,0.6);
+    }
+    [data-testid="stSidebarNav"]::before {
+        font-weight : 600;
+        content: "Menu";
+        margin-left: 20px;
+        font: Helvica Bold;
+        margin-top: 20px;
+        font-size: 30px;
+        position: relative;
+        top: 100px;
+        }
+</style>
+""", unsafe_allow_html=True)
 
 
 tab1, tab2, tab3 = st.tabs(["Novos Problemas", "Mapa de Problemas", "Estatísticas"])
