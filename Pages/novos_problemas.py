@@ -55,7 +55,6 @@ else:
         else:
             st.error(problemas)
 
-# Agora podemos processar todos os problemas acumulados
 for problema in problemas_acumulados:
     datas.append(problema['data_inicio'])
     status.append(problema.get('status', 'Não informado'))
@@ -63,7 +62,7 @@ for problema in problemas_acumulados:
     urgencias.append(problema['urgencia'])
 
 
-col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
+col1, col2, col3, col4 = st.columns([1,1,1,1])
 with col1:
     st.subheader("Problema")
 with col2:
@@ -72,11 +71,9 @@ with col3:
     st.subheader("Urgência")
 with col4:
     st.subheader("Status")
-with col5:
-    st.subheader("Mais")
 
 for problema in problemas_acumulados:
-    col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
+    col1, col2, col3, col4 = st.columns([1,1,1,1])
     
     with col1:
         st.write(problema['problema_tipo'])
@@ -91,7 +88,6 @@ for problema in problemas_acumulados:
         elif urgencia.lower() == "mínima":
             col3.markdown(f'<h6 class="low">{urgencia}</h6>', unsafe_allow_html=True)
     with col4:
-        # st.write(problema.get('status', 'Não informado'))
         status = problema.get('status', 'Não informado')
         index_ = 0
         if status == "Em análise":
@@ -100,12 +96,5 @@ for problema in problemas_acumulados:
             index_ = 1
         elif status == "Aguardando Reparo":
             index_ = 2
-        novo_status = st.selectbox("Status", ["Em análise", "Reportado", "Aguardando Reparo"], index=index_, key=str(problema['_id']))
+        novo_status = st.selectbox("", ["Em análise", "Reportado", "Aguardando Reparo"], index=index_, key=str(problema['_id']))
         problema['status'] = novo_status
-    # with col5:
-#         st.markdown(
-#     '''
-#     <a href="/infos" style="display: inline-block; background-color: rgba(120, 219, 217,0.6); color: #000000; text-align: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Ver mais</a>
-#     ''',
-#     unsafe_allow_html=True
-# )
