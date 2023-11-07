@@ -91,6 +91,13 @@ for problema in problemas_acumulados:
         elif urgencia.lower() == "mínima":
             col3.markdown(f'<h6 class="low">{urgencia}</h6>', unsafe_allow_html=True)
     with col4:
-        st.write(problema.get('status', 'Não informado'))
-    with col5:
-        st.write()
+        # st.write(problema.get('status', 'Não informado'))
+        novo_status = st.selectbox("Status", ["Em análise", "Concluído", "Cancelado"], index=status.index(problema.get('status', 'Não informado')))
+        problema['status'] = novo_status
+    # with col5:
+        st.markdown(
+    '''
+    <a href="/infos" style="display: inline-block; background-color: rgba(120, 219, 217,0.6); color: #000000; text-align: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Ver mais</a>
+    ''',
+    unsafe_allow_html=True
+)
