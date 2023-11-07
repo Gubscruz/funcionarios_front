@@ -20,7 +20,7 @@ def mostra_problemas_filtrado(filtro):
     
 def update_problemas(problema):
     try:
-        response = requests.put(f"{BASE_URL}/problemas", json=problema)
+        response = requests.put(f"{BASE_URL}/problemas/{problema['_id']}", json=problema)
         response.raise_for_status()
         return True, response.json()
     except Exception as e:

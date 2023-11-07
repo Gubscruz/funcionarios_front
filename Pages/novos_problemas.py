@@ -98,5 +98,6 @@ for problema in problemas_acumulados:
             index_ = 2
         novo_status = st.selectbox("", ["Em análise", "Reportado", "Aguardando Reparo"], index=index_, key=str(problema['_id']))
         problema['status'] = novo_status
+        print(problema)
         uts.update_problemas(problema)
 
