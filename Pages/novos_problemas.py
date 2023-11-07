@@ -93,13 +93,14 @@ for problema in problemas_acumulados:
     with col4:
         # st.write(problema.get('status', 'Não informado'))
         status = problema.get('status', 'Não informado')
+        index_ = 0
         if status == "Em análise":
             index_ = 0
-        elif status == "Concluído":
+        elif status == "Reportado":
             index_ = 1
-        elif status == "Cancelado":
+        elif status == "Aguardando Reparo":
             index_ = 2
-        novo_status = st.selectbox("Status", ["Em análise", "Concluído", "Cancelado"], index=index_, key=str(problema['_id']))
+        novo_status = st.selectbox("Status", ["Em análise", "Reportado", "Aguardando Reparo"], index=index_, key=str(problema['_id']))
         problema['status'] = novo_status
     # with col5:
 #         st.markdown(
