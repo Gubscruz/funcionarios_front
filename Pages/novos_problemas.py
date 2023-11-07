@@ -31,73 +31,66 @@ st.markdown("""
 
 options = st.multiselect(
     'Filtro de urgência',
-    ['Extrema', 'Mediana', 'Mínima'])
+    ['Extrema', 'Mediana', 'Mínima'],
+    default=['Extrema', 'Mediana', 'Mínima']
+)
 
-
-datas =[]
+datas = []
 status = [] 
 tipos_problemas = []
-urgencias=[]
-if options == []:
-    deu_certo,problemas = uts.get_problemas()
-    if deu_certo: 
-        for problema in problemas['problemas']:
-            datas.append(problema['data_inicio'])
-            if 'status' in problema:
-                status.append(problema['status'])
-            tipos_problemas.append(problema['problema_tipo'])
-            urgencias.append(problema['urgencia'])
-    else: 
-        st.error(problemas)
+urgencias = []
+problemas_acumulados = []
 
-else:
-    for i in range (len(options)):
-        deu_certo, problemas = uts.mostra_problemas_filtrado(options[i])
+if not options:
+    deu_certo, problemas = uts.get_problemas()
     if deu_certo:
-        if problemas['problemas'] == []:
-            st.write("Não há problemas cadastrados com essa urgência")
-        else:
-            for problema in problemas['problemas']:
-                datas.append(problema['data_inicio'])
-                if 'status' in problema:
-                    status.append(problema['status'])
-                tipos_problemas.append(problema['problema_tipo'])
-                urgencias.append(problema['urgencia'])
-    else: 
+        problemas_acumulados.extend(problemas['problemas'])
+    else:
         st.error(problemas)
+else:
+    for urgencia_selecionada in options:
+        deu_certo, problemas = uts.mostra_problemas_filtrado(urgencia_selecionada)
+        if deu_certo:
+            problemas_acumulados.extend(problemas['problemas'])
+        else:
+            st.error(problemas)
+
+# Agora podemos processar todos os problemas acumulados
+for problema in problemas_acumulados:
+    datas.append(problema['data_inicio'])
+    status.append(problema.get('status', 'Não informado'))
+    tipos_problemas.append(problema['problema_tipo'])
+    urgencias.append(problema['urgencia'])
 
 
-col1,col2,col3,col4,col5 = st.columns([1,1,1,1,1])
-
+col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
 with col1:
     st.subheader("Problema")
-    st.divider()
-    for tipo_problema in tipos_problemas:
-        st.write(tipo_problema)
-
 with col2:
     st.subheader("Datas")
-    st.divider()
-    for data in datas:
-        st.write(data)
-
 with col3:
     st.subheader("Urgência")
-    st.divider()
-    for urgencia in urgencias:
-        if urgencia == "Alta" or urgencia == "alta":
-            st.write(f'<h6 class= alt>{urgencia} </h6>',unsafe_allow_html=True)
-        if urgencia == "Mediana" or urgencia == "mediana":
-            st.write(f'<h6 class= mid>{urgencia} </h6>',unsafe_allow_html=True)
-        if urgencia == "Mínima" or  urgencia == "minima":
-            st.write(f'<h6 class= low>{urgencia} </h6>',unsafe_allow_html=True)
-
 with col4:
     st.subheader("Status")
-    st.divider()
-    for status_ in status:
-        st.write(status_)
-
 with col5:
     st.subheader("Mais")
-    st.write()
+
+for problema in problemas_acumulados:
+    col1, col2, col3, col4, col5 = st.columns([1,1,1,1,1])
+    
+    with col1:
+        st.write(problema['problema_tipo'])
+    with col2:
+        st.write(problema['data_inicio'])
+    with col3:
+        urgencia = problema['urgencia']
+        if urgencia.lower() == "extrema":
+            col3.markdown(f'<h6 class="alt">{urgencia}</h6>', unsafe_allow_html=True)
+        elif urgencia.lower() == "mediana":
+            col3.markdown(f'<h6 class="mid">{urgencia}</h6>', unsafe_allow_html=True)
+        elif urgencia.lower() == "mínima":
+            col3.markdown(f'<h6 class="low">{urgencia}</h6>', unsafe_allow_html=True)
+    with col4:
+        st.write(problema.get('status', 'Não informado'))
+    with col5:
+        st.write()
