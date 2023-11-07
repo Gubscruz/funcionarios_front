@@ -1,7 +1,7 @@
 import requests
 
 
-BASE_URL = "http://127.0.0.1:4800"
+BASE_URL = "https://reporta-cidade-36c5016e43fd.herokuapp.com"
 
 def get_problemas():
     try:
