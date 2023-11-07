@@ -92,7 +92,14 @@ for problema in problemas_acumulados:
             col3.markdown(f'<h6 class="low">{urgencia}</h6>', unsafe_allow_html=True)
     with col4:
         # st.write(problema.get('status', 'Não informado'))
-        novo_status = st.selectbox("Status", ["Em análise", "Concluído", "Cancelado"], index=status.index(problema.get('status', 'Não informado')), key=str(problema['_id']))
+        status = problema.get('status', 'Não informado')
+        if status == "Em análise":
+            index_ = 0
+        elif status == "Concluído":
+            index_ = 1
+        elif status == "Cancelado":
+            index_ = 2
+        novo_status = st.selectbox("Status", ["Em análise", "Concluído", "Cancelado"], index=index_, key=str(problema['_id']))
         problema['status'] = novo_status
     # with col5:
 #         st.markdown(
